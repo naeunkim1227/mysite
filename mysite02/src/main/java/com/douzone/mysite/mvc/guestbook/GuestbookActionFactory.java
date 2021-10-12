@@ -10,10 +10,7 @@ public class GuestbookActionFactory extends ActionFactory {
 	public Action getAction(String actionName) {
 		Action action = null;
 		
-		if("list".equals(actionName)) {
-			System.out.println("List 페이지로 이동");
-			action = new ListAction();
-		}else if("write".equals(actionName)) {
+		if("write".equals(actionName)) {
 			System.out.println("방명록 작성");
 			action = new WriteAction();
 		}else if("deleteform".equals(actionName)) {
@@ -23,7 +20,7 @@ public class GuestbookActionFactory extends ActionFactory {
 			System.out.println("delete 실행");
 			action = new DeleteAction();
 		}else {
-			action = new MainAction();
+			action = new ListAction();
 		}
 		
 		

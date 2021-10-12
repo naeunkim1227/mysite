@@ -20,7 +20,7 @@
 		<jsp:include page="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="guestbook">
-				<form action="<%=request.getContextPath() %>/guest?g=write" method="post">
+				<form action="<%=request.getContextPath() %>/guestbook?g=write" method="post">
 					<input type="hidden" name="a" value="insert">
 					<table>
 						<tr>
@@ -45,14 +45,17 @@
 								<td><%=i%></td>
 								<td><%=vo.getName() %></td>
 								<td><%=vo.getRegDate() %></td>
-								<td><a href="<%=request.getContextPath()%>/guest?g=deleteform&<%=vo.getNo()%>">삭제</a></td>
+								<td><a href="<%=request.getContextPath()%>/guestbook?g=deleteform&no=<%=vo.getNo()%>">삭제</a></td>
 							</tr>
 							<tr>
 								<td colspan=4>
 								<%=vo.getMessage() %>
 								</td>
 							</tr>
-							<%} %>
+							<%
+							i++;
+							}
+							%>
 						</table>
 						<br>
 					</li>

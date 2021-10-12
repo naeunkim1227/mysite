@@ -19,7 +19,6 @@ public class ListAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<guestbookVO> list =  new guestbookDAO().findall();
 		
-		
 		HttpSession session = request.getSession(true);
 		session.setAttribute("list", list);
 		

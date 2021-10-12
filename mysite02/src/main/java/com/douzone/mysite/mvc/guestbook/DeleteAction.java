@@ -19,7 +19,7 @@ public class DeleteAction implements Action {
 		
 		new guestbookDAO().delete(no,password);
 		
-		MvcUtil.redirect("/mysite02/guest?g=list", request, response);
+		MvcUtil.redirect("/mysite02/guestbook?g=list", request, response);
 	}
 
 }
