@@ -76,4 +76,42 @@ public class UserDAO {
 	}
 	
 	
+	//select
+		public UserVO findbyEmailAndPassword(String email,String password) {
+			UserVO vo  = null;
+			
+			try {
+				conn = getconnection();
+				
+				sql = "select no,name from user where email = ? and password = ?";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, email);
+				pstmt.setString(2, password);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					//이메일, 패스워드 일치
+					vo = new UserVO();
+					
+					vo.setNo(rs.getLong(1));
+					vo.setName(rs.getString(2));
+					
+				}else {
+					//이메일,패스워드 불일치
+					System.out.println("일치 항목 없음");
+				}
+
+			
+			
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return vo;
+			
+			
+		}
+	
 }

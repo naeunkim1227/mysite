@@ -11,24 +11,27 @@ import com.douzone.mysite.vo.UserVO;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
 
-public class JoinAction implements Action {
+public class LoginAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String name = request.getParameter("name"); 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		String gender = request.getParameter("gender");
 		
-		UserVO vo= new UserVO();
-		vo.setEmail(email);
-		vo.setGender(gender);
-		vo.setName(name);
-		vo.setPassword(password);
+		UserVO uservo = new UserDAO().findbyEmailAndPassword(email, password);
 		
-		new UserDAO().insert(vo);
+		if(uservo == null) {
+			//로그인실패
+			request.setAttribute("result", "fail");
+			MvcUtil.forward("user/loginform", request, response);
+			return;
+		}
 		
-		MvcUtil.redirect("/mysite02/user?a=joinsuccess", request, response);
+		//인증처리(세션처리)
+		System.out.println("인증 처리(세션처리)");
+		
+		MvcUtil.redirect("/mysite02", request, response);
+	
 	}
 
 }
