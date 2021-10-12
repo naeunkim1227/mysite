@@ -1,7 +1,6 @@
-package com.douzone.mysite.mvc;
+package com.douzone.mysite.mvc.user;
 
-import com.douzone.mysite.mvc.JoinFormAction;
-import com.douzone.mysite.mvc.MainAction;
+import com.douzone.mysite.mvc.main.MainAction;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.mvc.ActionFactory;
 
@@ -15,6 +14,8 @@ public class UserActionFactory extends ActionFactory{
 			action = new JoinFormAction();
 		}else if("join".equals(actionName)) {
 			action = new JoinAction();
+		}else if("joinsuccess".equals(actionName)) {
+			action = new JoinSuccessAction();
 		}else {
 			action = new MainAction();
 			
