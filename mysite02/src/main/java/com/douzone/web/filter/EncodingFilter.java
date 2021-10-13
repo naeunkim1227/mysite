@@ -21,9 +21,9 @@ public class EncodingFilter implements Filter {
     
 	public void init(FilterConfig fConfig) throws ServletException {
 		encoding = fConfig.getInitParameter("encoding");
-		if(encoding == null) {
+		if(encoding == null) { // default encoding charset
 			encoding = "UTF-8";
-		}
+		} 
 	}
 	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
