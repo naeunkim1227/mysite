@@ -113,5 +113,12 @@ public class UserDAO {
 			
 			
 		}
+
+		public UserVO findByNo(long no) {
+			
+			
+			
+			return null;
+		}
 	
 }

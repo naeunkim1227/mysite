@@ -4,9 +4,6 @@
     pageEncoding="UTF-8"%>
 <% 
 	List<guestbookVO> list = (List<guestbookVO>)session.getAttribute("list");
-
-	
-	
 %>
 <!DOCTYPE html>
 <html>

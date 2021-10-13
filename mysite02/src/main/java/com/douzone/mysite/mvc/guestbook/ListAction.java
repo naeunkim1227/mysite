@@ -22,6 +22,8 @@ public class ListAction implements Action {
 		HttpSession session = request.getSession(true);
 		session.setAttribute("list", list);
 		
+		//request.setAttribute("list", list);
+		
 		MvcUtil.forward("guestbook/list", request, response);
 	}
 

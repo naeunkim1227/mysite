@@ -28,6 +28,12 @@ public class UserActionFactory extends ActionFactory{
 		}else if("logout".equals(actionName)){
 			System.out.println("파라미터 > logout");
 			action = new LogoutAction();
+		}else if("updateform".equals(actionName)){
+			System.out.println("파라미터 > logout");
+			action = new UpdateFormAction();
+		}else if("update".equals(actionName)){
+			System.out.println("파라미터 > logout");
+			action = new UpdateAction();
 		}else {
 			action = new MainAction();
 			
