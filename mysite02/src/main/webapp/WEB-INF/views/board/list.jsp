@@ -30,11 +30,11 @@
 					<tr>
 						<td>3</td>
 						<!--${20*vo.depth}  -->
-						<td style="text-align:left; "><a href="">세 번째 글입니다.</a></td>
+						<td style="text-align:left; "><a href="${pageContext.request.contextPath }/board?b=view">세 번째 글입니다.</a></td>
 						<td>안대혁</td>
 						<td>3</td>
 						<td>2015-10-11 12:04:20</td>
-						<td><a href="" class="del">삭제</a></td>
+						<td><a href="${pageContext.request.contextPath }/board?b=delete">삭제</a></td>
 					</tr>
 					<tr>
 						<td>2</td>
