@@ -28,10 +28,10 @@ public class UpdateFormAction implements Action {
 		//authUser가 가지고 있는 데이터가 no,name뿐임 세션에 데이터를 많이 저장하는것은 좋지 않기때문에
 		//no를 가지고 쿼리를 한번더 짜주기.
 		long no = authUser.getNo();
-		UserVO vo = new UserDAO().findByNo(no);
+		UserVO user = new UserDAO().findByNo(no);
 		
+		request.setAttribute("user", user);
 		
-		request.setAttribute("user", authUser);
 		MvcUtil.forward("user/updateform", request, response);
 
 	}

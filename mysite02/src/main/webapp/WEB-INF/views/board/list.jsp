@@ -14,6 +14,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
+			
 				<form id="search_form" action="" method="post">
 					<input type="text" id="kwd" name="kwd" value="">
 					<input type="submit" value="찾기">
@@ -34,7 +35,7 @@
 						<td>안대혁</td>
 						<td>3</td>
 						<td>2015-10-11 12:04:20</td>
-						<td><a href="${pageContext.request.contextPath }/board?b=delete">삭제</a></td>
+						<td><a href="${pageContext.request.contextPath }/board?b=delete&no=${authUser.no}">삭제</a></td>
 					</tr>
 					<tr>
 						<td>2</td>
@@ -69,7 +70,7 @@
 				<!-- pager 추가 -->
 				
 				<div class="bottom">
-					<a href="" id="new-book">글쓰기</a>
+					<a href="${pageContext.request.contextPath }/board?b=writeform" id="new-book">글쓰기</a>
 				</div>				
 			</div>
 		</div>

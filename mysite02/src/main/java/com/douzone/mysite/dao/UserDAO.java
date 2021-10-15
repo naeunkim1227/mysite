@@ -115,10 +115,61 @@ public class UserDAO {
 		}
 
 		public UserVO findByNo(long no) {
+			UserVO vo  = null;
 			
+			try {
+				conn = getconnection();
+				
+				sql = "select name,email,gender from user where no = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setLong(1, no);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					vo = new UserVO();
+					
+					vo.setName(rs.getString(1));
+					vo.setEmail(rs.getString(2));
+					vo.setGender(rs.getString(3));
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			
+			return vo;
+		}
+
+		public UserVO update(UserVO vo) {
+			try {
+				conn = getconnection();
+				sql  = "select no from user where password = ?";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, vo.getPassword());
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					sql = "update user set name= ?,gender=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, vo.getName());
+					pstmt.setString(2, vo.getGender());
+					
+					pstmt.executeUpdate();
+				}else {
+					System.out.println("비밀번호 불일치");
+				}
+				
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return vo;
 			
-			return null;
 		}
 	
 }

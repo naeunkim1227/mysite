@@ -18,7 +18,7 @@
 			<div id="user">
 
 				<form id="join-form" name="joinForm" method="post"
-					action="${pageContext.request.contextPath }/user?a=join">
+					action="${pageContext.request.contextPath }/user?a=update">
 					<label class="block-label" for="name">이름</label> <input id="name"
 						name="name" type="text" value="${user.name}"> <label
 						class="block-label" for="email">이메일</label>
@@ -30,14 +30,14 @@
 					<fieldset>
 						<legend>성별</legend>
 						<c:choose>
-							<c:when test="${user.gender == female}">
+							<c:when test="${user.gender == 'female'}">
 								<label>여</label>
 								<input type="radio" name="gender" value="female"
 									checked="checked">
 								<label>남</label>
 								<input type="radio" name="gender" value="male">
 							</c:when>
-							<c:when test="${user.gender == male } ">
+							<c:when test="${user.gender == 'male' } ">
 								<label>여</label>
 								<input type="radio" name="gender" value="female">
 								<label>남</label>
