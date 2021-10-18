@@ -32,7 +32,7 @@ public class WriteAction implements Action {
 		
 		new BoardDAO().write(dto);
 		
-		MvcUtil.redirect("/mysite02/board?b=list", request, response);
+		MvcUtil.redirect("/mysite02/board", request, response);
 	}
 
 }

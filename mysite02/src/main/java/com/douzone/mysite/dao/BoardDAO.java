@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.douzone.mysite.vo.BoardDTO;
 
@@ -58,6 +60,43 @@ public class BoardDAO {
 		
 	}	
 	
+	public List<BoardDTO> listall() {
+		List<BoardDTO> list = new ArrayList<BoardDTO>(); 
+		
+		try {
+			conn = getconnection();
+			sql = "select a.no, a.title, a.contents, a.hit, "
+					+ "a.reg_date, a.group_no, a.order_no,"
+					+ " a.depth, a.user_no, b.name "
+					+ "from board a join member b on a.user_no = b.no";
+			
+			pstmt = conn.prepareStatement(sql);
+				
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardDTO dto = new BoardDTO();
+				
+				dto.setNo(rs.getInt(1));
+				dto.setTitle(rs.getString(2));
+				dto.setContents(rs.getString(3));
+				dto.setHit(rs.getInt(4));
+				dto.setReg_date(rs.getDate(5));
+				dto.setGroup_no(rs.getInt(6));
+				dto.setOrder_no(rs.getInt(7));
+				dto.setDepth(rs.getInt(8));
+				dto.setUser_no(rs.getInt(9));
+				dto.setName(rs.getString(10));
+				
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 	
 	
 }
