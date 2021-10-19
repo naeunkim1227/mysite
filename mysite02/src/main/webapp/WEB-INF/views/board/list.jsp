@@ -49,8 +49,15 @@
 									<td>${dto.name}</td>
 									<td>${dto.hit }</td>
 									<td>${dto.reg_date }</td>
-									<td><a
-										href="${pageContext.request.contextPath }/board?b=delete&userno=${authUser.no}&no=${dto.no}">삭제</a></td>
+									<c:choose>
+										<c:when test="${authUser.no empty}">
+										<td>업슈</td>   	
+										</c:when>
+										<c:otherwise>
+										<td>
+										<a href="${pageContext.request.contextPath }/board?b=delete&userno=${authUser.no}&no=${dto.no}">삭제</a></td>
+										</c:otherwise>
+									</c:choose>
 								</tr>
 							</c:otherwise>
 						</c:choose>

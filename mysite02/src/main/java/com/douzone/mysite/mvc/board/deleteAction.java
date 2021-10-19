@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.douzone.mysite.dao.BoardDAO;
 import com.douzone.web.mvc.Action;
+import com.douzone.web.util.MvcUtil;
 
 public class deleteAction implements Action {
 
@@ -16,18 +17,16 @@ public class deleteAction implements Action {
 		Long userno = Long.parseLong(request.getParameter("userno"));
 		Long no = Long.parseLong(request.getParameter("no"));
 		
-		String checkwriter = new BoardDAO().checkwriter(no);
+		Long checkwriter = new BoardDAO().checkwriter(no);
 		
-		
+		System.out.println(userno);
 		if(userno.equals(checkwriter)) {
-			
 			new BoardDAO().delete(no);
-			
 		}else {
 			System.out.println("글 작성자 아님,삭제 할 수 없음");
 		}
 		
-
+		MvcUtil.redirect("/mysite02/board", request, response);
 	}
 
 }

@@ -178,8 +178,8 @@ public class BoardDAO {
 	}
 
 
-	public String checkwriter(Long no) {
-		String checkwriter = null;
+	public long checkwriter(Long no) {
+		long checkwriter = 0;
 		
 		try {
 			conn =getconnection();
@@ -191,7 +191,7 @@ public class BoardDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				checkwriter = rs.getString(1);
+				checkwriter = rs.getLong(1);
 			}
 			
 			
