@@ -1,0 +1,14 @@
+1. maven project 생성 (war로 생성)
+2. web.xml 추가 (우클릭 > java EE Tools > Generate Deployment Descriptor Stub)
+3. target runtime 으로 톰캣 라이브러리 추가해주기
+4. pom.xml에서 설정 추가 (dependency  , property, build)
+5. web.xml에서 설정 추가
+	1) /WEB-INF/applicationContext.xml (Root Application Context)
+	2) /WEB-INF/spring-servlet.xml (Web Application Context)
+6. Package 및 소스 보드 작업
+	com.douzone.mysite.controller
+	com.douzone.mysite.service 
+	com.douzone.mysite.repository
+	com.douzone.mysite.vo
+7. views/*.jsp 파일정리
+8. 파일에 어노테이션 입력하기 @Controller, @Repository
