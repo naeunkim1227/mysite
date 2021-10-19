@@ -41,12 +41,13 @@ public class UserController {
 		return "user/login";
 	}
 	
-	
-	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public String update(HttpSession session) {
-		return "user/update";
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.removeAttribute("authUser");
+		session.invalidate();
+		
+		return "redirect:/";
 	}
-	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(
@@ -57,6 +58,7 @@ public class UserController {
 		 UserVO userVo = userService.getuser(email,password);
 		 if(userVo == null) { 
 		 model.addAttribute("result", "fail");
+		 	return "user/login";
 		 }
 
 		 //인증처리
@@ -64,6 +66,47 @@ public class UserController {
 		 
 		return "redirect:/";
 	}
+	
+	
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public String update(HttpSession session, Model model) {
+		//접근제어(Access Control List)
+		UserVO authUser = (UserVO)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		
+		//////////////////////////////////////////////////////////////
+		
+		Long no = authUser.getNo();
+		UserVO userVo = userService.getuser(no);
+		model.addAttribute("userVo", userVo);
+		return "user/update";
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String update(HttpSession session, UserVO userVo) {
+		//접근제어(Access Control List)
+		UserVO authUser = (UserVO)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		
+		//////////////////////////////////////////////////////////////
+		
+		userVo.setNo(authUser.getNo());
+		userService.updateuser(userVo);
+		
+		
+		//수정후 헤더의 아이디도 바뀌도록 새로 지정
+		authUser.setName(userVo.getName());
+		
+		return "redirect:/user/update";
+	}
+	
+
+	
+	
 	
 	
 	

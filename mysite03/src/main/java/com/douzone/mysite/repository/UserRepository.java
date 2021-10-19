@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.douzone.mysite.exception.UserRepositoryException;
 import com.douzone.mysite.vo.UserVO;
 
 @Repository
@@ -61,7 +62,7 @@ public class UserRepository {
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			System.out.println("error:" + e);
+			e.printStackTrace();
 		} finally {
 			// clean up
 			try {
@@ -79,7 +80,7 @@ public class UserRepository {
 	
 	
 	//select
-		public UserVO findbyEmailAndPassword(String email,String password) {
+		public UserVO findbyEmailAndPassword(String email,String password) throws UserRepositoryException {
 			UserVO vo  = null;
 			
 			try {
@@ -108,15 +109,15 @@ public class UserRepository {
 			
 			
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new UserRepositoryException(e.toString());
 			}
 			return vo;
 			
 			
 		}
 
-		public UserVO findByNo(long no) {
+		/* 내코드..
+		public UserVO findByNo(long no) throws UserRepositoryException {
 			UserVO vo  = null;
 			
 			try {
@@ -138,11 +139,62 @@ public class UserRepository {
 				}
 				
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw new UserRepositoryException(e.toString());
+			}
+			
+			return vo;
+		}*/
+		
+
+		public UserVO findByNo(Long no) throws UserRepositoryException {
+			UserVO vo = null;
+			
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+					
+			try {
+				conn = getconnection();
+				
+				String sql =
+					" select no, name, email, gender " + 
+				    "   from user " + 
+					"  where no=?";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setLong(1, no);
+
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					vo = new UserVO();
+					
+					vo.setNo(rs.getLong(1));
+					vo.setName(rs.getString(2));
+					vo.setEmail(rs.getString(3));
+					vo.setGender(rs.getString(4));
+				}
+			} catch (SQLException e) {
+				throw new UserRepositoryException(e.toString());
+			} finally {
+				try {
+					if(rs != null) {
+						rs.close();
+					}
+					if(pstmt != null) {
+						pstmt.close();
+					}
+					if(conn != null) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 			
 			return vo;
 		}
+		
 
 		public UserVO update(UserVO vo) {
 			try {

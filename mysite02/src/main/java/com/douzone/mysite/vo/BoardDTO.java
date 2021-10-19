@@ -11,6 +11,7 @@ public class BoardDTO {
 	private int group_no;
 	private int order_no;
 	private int depth;
+	private String is_del;
 	
 	
 	private long user_no;
@@ -84,6 +85,12 @@ public class BoardDTO {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getIs_del() {
+		return is_del;
+	}
+	public void setIs_del(String is_del) {
+		this.is_del = is_del;
 	}
 	
 	
