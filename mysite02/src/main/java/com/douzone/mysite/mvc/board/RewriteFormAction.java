@@ -9,13 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
 
-public class WriteFormAction implements Action {
+public class RewriteFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		MvcUtil.forward("board/write", request, response);
-
+		MvcUtil.forward("board/rewrite", request, response);
 	}
 
 }

@@ -43,19 +43,24 @@
 							<c:otherwise>
 								<tr>
 									<td>${count-status.index}</td>
-									<!--${20*vo.depth}  -->
-									<td style="text-align: left;"><a
-										href="${pageContext.request.contextPath }/board?b=view&no=${dto.no}">${dto.title}</a></td>
+									<td style="text-align: left; padding-left: ${20*dto.depth}px">
+									<c:if test="${dto.depth != 0}">
+									<img src="${pageContext.request.contextPath }/assets/images/reply.png">
+									</c:if>
+									<a	href="${pageContext.request.contextPath }/board?b=view&no=${dto.no}">${dto.title}</a></td>
 									<td>${dto.name}</td>
 									<td>${dto.hit }</td>
 									<td>${dto.reg_date }</td>
 									<c:choose>
-										<c:when test="${authUser.no empty}">
-										<td>업슈</td>   	
+										<c:when test="${authUser.no == null}">
+											<td>
+											<a href="${pageContext.request.contextPath }/user?a=loginform" >로그인 후 삭제 가능</a></td>
+											</td>
 										</c:when>
 										<c:otherwise>
-										<td>
-										<a href="${pageContext.request.contextPath }/board?b=delete&userno=${authUser.no}&no=${dto.no}">삭제</a></td>
+											<td>
+											<a href="${pageContext.request.contextPath }/board?b=delete&userno=${authUser.no}&no=${dto.no}" class="del">삭제</a>
+											</td>
 										</c:otherwise>
 									</c:choose>
 								</tr>

@@ -23,6 +23,10 @@ public class BoardActionFactory extends ActionFactory {
 			action = new WriteFormAction();
 		}else if("write".equals(actionName)) {
 			action = new WriteAction();
+		}else if("rewriteform".equals(actionName)) {
+			action = new RewriteFormAction();
+		}else if("rewrite".equals(actionName)) {
+			action = new RewriteAction();
 		}else{
 			action = new ListAction();
 		}

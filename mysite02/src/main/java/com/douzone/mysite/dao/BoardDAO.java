@@ -13,9 +13,9 @@ import com.douzone.mysite.vo.UserVO;
 
 public class BoardDAO {
 	Connection conn = null;
-	PreparedStatement pstmt = null;
+	PreparedStatement pstmt,pstmt1,pstmt2 = null;
 	ResultSet rs = null;
-	String sql = null;
+	String sql,sql1,sql2 = null;
 	
 	
 	private Connection getconnection() throws SQLException{
@@ -70,7 +70,7 @@ public class BoardDAO {
 			sql = "select a.no, a.title, a.contents, a.hit, "
 					+ "a.reg_date, a.group_no, a.order_no,a.depth, "
 					+ "a.user_no, b.name, a.is_del from board a join "
-					+ "member b on a.user_no = b.no order by a.no desc";
+					+ "member b on a.user_no = b.no order by a.no,a.depth desc, a.order_no asc";
 			pstmt = conn.prepareStatement(sql);
 				
 			rs = pstmt.executeQuery();
@@ -208,7 +208,7 @@ public class BoardDAO {
 	public void delete(Long no) {
 		try {
 			conn = getconnection();
-			sql = "delete from board where no=?";
+			sql = "update board set is_del=true where no=?";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, no);
@@ -219,6 +219,46 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		
+		
+	}
+
+
+	public void replyinsert(BoardDTO dto) {
+		try {
+			conn = getconnection();
+			sql = "select group_no,depth from board where no=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, dto.getNo());
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				Long groupno = rs.getLong(1);
+				Long depth = rs.getLong(2);
+				
+				System.out.println("1");
+				sql1 = "update board set order_no = order_no+1 where group_no = ? and order_no >= 1";
+				pstmt1 = conn.prepareStatement(sql1);
+				pstmt1.setLong(1, groupno);
+				pstmt1.executeUpdate();
+				
+				System.out.println("2");
+				sql2 = "insert into board values (null,?,?,0,now(),?,1,?,?,'false')";
+				pstmt2 = conn.prepareStatement(sql2);
+				pstmt2.setString(1, dto.getTitle());
+				pstmt2.setString(2, dto.getContents());
+				pstmt2.setLong(3, groupno);
+				pstmt2.setLong(4, depth+1);
+				pstmt2.setLong(5, dto.getUser_no());
+				pstmt2.executeUpdate();
+				System.out.println("3");
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

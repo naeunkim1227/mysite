@@ -32,7 +32,7 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="${pageContext.request.contextPath }/board?b=write">답글</a>
+					<a href="${pageContext.request.contextPath }/board?b=rewriteform&no=${dto.no}">답글</a>
 					<a href="${pageContext.request.contextPath }/board?b=list">글목록</a>
 					<a href="${pageContext.request.contextPath }/board?b=modifyform&no=${dto.no}">글수정</a>
 				</div>
