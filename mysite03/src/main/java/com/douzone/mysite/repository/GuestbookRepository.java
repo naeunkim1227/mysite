@@ -81,8 +81,10 @@ public class GuestbookRepository {
 	}
 	
 	//select
-	public List<guestbookVO> findall() {
+	public List<guestbookVO> findall() throws GuestbookRepositoryException {
 		List<guestbookVO> list = new ArrayList<guestbookVO>();
+		
+	
 		
 		try {
 			conn = getconnection();
@@ -107,7 +109,7 @@ public class GuestbookRepository {
 		} catch (SQLException e) {
 			throw new GuestbookRepositoryException(e.toString());
 		}
-		
+	
 		return list;
 	}
 	
