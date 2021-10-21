@@ -18,7 +18,7 @@
 				<form method="post" action="${pageContext.request.contextPath }/guestbook?g=delete">
 					<input type="hidden" name="no" value="${param.no }">
 					<label>비밀번호</label>
-					<input type="password" name="password">
+					<input type="password" name="password" required="required">
 					<input type="submit" value="확인">
 				</form>
 				<a href="">방명록 리스트</a>
