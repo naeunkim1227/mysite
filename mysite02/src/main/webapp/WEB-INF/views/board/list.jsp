@@ -18,7 +18,9 @@
 		<div id="content">
 			<div id="board">
 
-				<form id="search_form" action="" method="post">
+				<form id="search_form"
+					action="${pageContext.request.contextPath }/board?b=search"
+					method="post">
 					<input type="text" id="kwd" name="kwd" value=""> <input
 						type="submit" value="찾기">
 				</form>
@@ -31,44 +33,80 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-					<c:set var="count" value="${fn:length(list) }" />
-					<c:forEach items="${list }" var="dto" varStatus="status">
-						<c:choose>
-							<c:when test="${dto.is_del == 'true'}">
-								<tr>
-									<td>${count-status.index}</td>
-									<td colspan="5">글이 삭제 되었습니다.</td>
-								</tr>
-							</c:when>
-							<c:otherwise>
-								<tr>
-									<td>${count-status.index}</td>
-									<td style="text-align: left; padding-left: ${20*dto.depth}px">
-									<c:if test="${dto.depth != 0}">
-									<img src="${pageContext.request.contextPath }/assets/images/reply.png">
-									</c:if>
-									<a	href="${pageContext.request.contextPath }/board?b=view&no=${dto.no}">${dto.title}</a></td>
-									<td>${dto.name}</td>
-									<td>${dto.hit }</td>
-									<td>${dto.reg_date }</td>
-									<c:choose>
-										<c:when test="${authUser.no == null}">
-											<td>
-											<a href="${pageContext.request.contextPath }/user?a=loginform" >로그인 후 삭제 가능</a></td>
-											</td>
-										</c:when>
-										<c:otherwise>
-											<td>
-											<a href="${pageContext.request.contextPath }/board?b=delete&userno=${authUser.no}&no=${dto.no}" class="del">삭제</a>
-											</td>
-										</c:otherwise>
-									</c:choose>
-								</tr>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
 
 
+					<c:choose>
+						<c:when test="${empty kwdlist}">
+							<c:set var="count" value="${fn:length(list) }" />
+							<c:forEach items="${list }" var="dto" varStatus="status">
+								<c:choose>
+									<c:when test="${dto.is_del == 'true'}">
+										<tr>
+											<td>${count-status.index}</td>
+											<td colspan="5">글이 삭제 되었습니다.</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<td>${count-status.index}</td>
+											<td style="text-align: left; padding-left: ${20*dto.depth}px">
+												<c:if test="${dto.depth != 0}">
+													<img
+														src="${pageContext.request.contextPath }/assets/images/reply.png">
+												</c:if> <a
+												href="${pageContext.request.contextPath }/board?b=view&no=${dto.no}">${dto.title}</a>
+											</td>
+											<td>${dto.name}</td>
+											<td>${dto.hit }</td>
+											<td>${dto.reg_date }</td>
+											<c:choose>
+												<c:when test="${authUser.no == null}">
+													<td><a
+														href="${pageContext.request.contextPath }/user?a=loginform">로그인
+															후 삭제 가능</a></td>
+													</td>
+												</c:when>
+												<c:otherwise>
+													<td><a
+														href="${pageContext.request.contextPath }/board?b=delete&userno=${authUser.no}&no=${dto.no}"
+														class="del">삭제</a></td>
+												</c:otherwise>
+											</c:choose>
+										</tr>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<b>${param.kwd} 에 대한 검색결과 입니다.</b>
+							<c:set var="count" value="${fn:length(kwdlist) }" />
+							<c:forEach items="${kwdlist }" var="dto" varStatus="status">
+								<tr>
+								<td>${count-status.index}</td>
+								<td>
+								<a href="${pageContext.request.contextPath }/board?b=view&no=${dto.no}">${dto.title}</a>
+								</td>
+								<td>${dto.name}</td>
+								<td>${dto.hit }</td>
+								<td>${dto.reg_date }</td>
+								<c:choose>
+									<c:when test="${authUser.no == null}">
+										<td><a
+											href="${pageContext.request.contextPath }/user?a=loginform">로그인
+												후 삭제 가능</a></td>
+										</td>
+									</c:when>
+									<c:otherwise>
+										<td><a
+											href="${pageContext.request.contextPath }/board?b=delete&userno=${authUser.no}&no=${dto.no}"
+											class="del">삭제</a></td>
+									
+									</c:otherwise>
+								</c:choose>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</table>
 
 				<!-- pager 추가 -->

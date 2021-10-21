@@ -70,7 +70,7 @@ public class BoardDAO {
 			sql = "select a.no, a.title, a.contents, a.hit, "
 					+ "a.reg_date, a.group_no, a.order_no,a.depth, "
 					+ "a.user_no, b.name, a.is_del from board a join "
-					+ "member b on a.user_no = b.no order by a.no,a.depth desc, a.order_no asc";
+					+ "user b on a.user_no = b.no order by a.group_no desc ,a.order_no desc ,a.depth asc";
 			pstmt = conn.prepareStatement(sql);
 				
 			rs = pstmt.executeQuery();
@@ -96,6 +96,7 @@ public class BoardDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 		return list;
 	}
@@ -260,6 +261,42 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		
+	}
+
+
+	public List<BoardDTO> searchlist(String kwd) {
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+		
+		try {
+			
+			
+			conn = getconnection();
+			sql = "select a.no, a.title, a.hit, a.reg_date, b.name from board a join user b on a.user_no = b.no where a.is_del = 'false' and a.title like ? or a.contents like ? or b.name like ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "%"+kwd +"%");
+			pstmt.setString(2, "%"+kwd +"%");
+			pstmt.setString(3, "%"+kwd +"%");
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardDTO dto = new BoardDTO();
+				dto.setNo(rs.getLong(1));
+				dto.setTitle(rs.getString(2));
+				dto.setHit(rs.getInt(3));
+				dto.setReg_date(rs.getDate(4));
+				dto.setName(rs.getString(5));
+				
+				list.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 
 

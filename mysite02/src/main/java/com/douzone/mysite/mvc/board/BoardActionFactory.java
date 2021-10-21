@@ -27,6 +27,8 @@ public class BoardActionFactory extends ActionFactory {
 			action = new RewriteFormAction();
 		}else if("rewrite".equals(actionName)) {
 			action = new RewriteAction();
+		}else if("search".equals(actionName)) {
+			action = new SearchAction();
 		}else{
 			action = new ListAction();
 		}
