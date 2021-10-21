@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +22,9 @@ public class UserRepository {
 	@Autowired
 	private DataSource dataSource;
 	
+	@Autowired
+	private SqlSession sqlSession;
+	
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
@@ -26,78 +32,19 @@ public class UserRepository {
 	
 	//insert
 	public void insert(UserVO vo) {
-		conn = null;
-		pstmt = null;
-		
-		try {
-			conn = dataSource.getConnection();
-			
-			//3. SQL 준비
-			String sql = "insert into user values (null, ?, ? , ?, ?, now())";
-			pstmt = conn.prepareStatement(sql);
-			
-			//4. 바인딩(binding)
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getEmail());
-			pstmt.setString(3, vo.getPassword());
-			pstmt.setString(4, vo.getGender());
-			
-			//5. SQL 실행
-			pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			// clean up
-			try {
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		sqlSession.insert("user.insert" , vo);
 	}
 	
 	
 	//select
-		public UserVO findbyEmailAndPassword(String email,String password) throws UserRepositoryException {
-			UserVO vo  = null;
-			
-			try {
-				conn = dataSource.getConnection();
-				
-				sql = "select no,name from user where email = ? and password = ?";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, email);
-				pstmt.setString(2, password);
-				
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					//이메일, 패스워드 일치
-					vo = new UserVO();
-					
-					vo.setNo(rs.getLong(1));
-					vo.setName(rs.getString(2));
-					
-				}else {
-					//이메일,패스워드 불일치
-					System.out.println("일치 항목 없음");
-				}
-
-			
-			
-			} catch (SQLException e) {
-				throw new UserRepositoryException(e.toString());
-			}
+		public UserVO findbyEmailAndPassword(String email,String password)
+				throws UserRepositoryException {
+			//두개 보내줘야함
+			Map<String, String> map  =new HashMap<>();
+			map.put("e", email);
+			map.put("p", password);
+			UserVO vo = sqlSession.selectOne("user.findByEmailAndPassword", map );
 			return vo;
-			
-			
 		}
 
 		/* 내코드..
@@ -131,82 +78,13 @@ public class UserRepository {
 		
 
 		public UserVO findByNo(Long no) throws UserRepositoryException {
-			UserVO vo = null;
-			
-			Connection conn = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-					
-			try {
-				conn = dataSource.getConnection();
-				
-				String sql =
-					" select no, name, email, gender " + 
-				    "   from user " + 
-					"  where no=?";
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setLong(1, no);
-
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					vo = new UserVO();
-					
-					vo.setNo(rs.getLong(1));
-					vo.setName(rs.getString(2));
-					vo.setEmail(rs.getString(3));
-					vo.setGender(rs.getString(4));
-				}
-			} catch (SQLException e) {
-				throw new UserRepositoryException(e.toString());
-			} finally {
-				try {
-					if(rs != null) {
-						rs.close();
-					}
-					if(pstmt != null) {
-						pstmt.close();
-					}
-					if(conn != null) {
-						conn.close();
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			return vo;
+			return sqlSession.selectOne("user.findByNo", no);
 		}
 		
 
-		public UserVO update(UserVO vo) {
-			try {
-				conn = dataSource.getConnection();
-				sql  = "select no from user where password = ?";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, vo.getPassword());
-				
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					sql = "update user set name= ?,gender=?";
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, vo.getName());
-					pstmt.setString(2, vo.getGender());
-					
-					pstmt.executeUpdate();
-				}else {
-					System.out.println("비밀번호 불일치");
-				}
-				
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return vo;
+		public boolean update(UserVO vo) {
+			 int count = sqlSession.update("user.update", vo);
+		 return count == 1;
 			
 		}
 	

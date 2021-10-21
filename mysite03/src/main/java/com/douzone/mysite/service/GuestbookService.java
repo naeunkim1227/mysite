@@ -22,7 +22,11 @@ public class GuestbookService {
 		guestbookRepository.insert(vo);
 	}
 
-	public void delete(guestbookVO vo) {
+	public void delete(Long no, String password) {
+		guestbookVO vo = new guestbookVO();
+		vo.setNo(no);
+		vo.setPassword(password);
+		
 		guestbookRepository.delete(vo);
 	}
 
