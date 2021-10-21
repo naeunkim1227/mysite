@@ -1,13 +1,13 @@
 package com.douzone.mysite.repository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.douzone.mysite.exception.UserRepositoryException;
@@ -15,30 +15,14 @@ import com.douzone.mysite.vo.UserVO;
 
 @Repository
 public class UserRepository {
+	
+	@Autowired
+	private DataSource dataSource;
+	
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	String sql = null;
-	
-	private Connection getconnection() throws SQLException{
-		conn = null;
-		
-		try {
-			// 1. JDBC Driver 로딩
-			Class.forName("org.mariadb.jdbc.Driver");
-
-			// 2. 연결하기
-			String url = "jdbc:mysql://127.0.0.1:3306/webdb?charset=utf8";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-			
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("드라이버 로딩 실패");
-		}
-
-		return conn;
-	}
 	
 	//insert
 	public void insert(UserVO vo) {
@@ -46,7 +30,7 @@ public class UserRepository {
 		pstmt = null;
 		
 		try {
-			conn = getconnection();
+			conn = dataSource.getConnection();
 			
 			//3. SQL 준비
 			String sql = "insert into user values (null, ?, ? , ?, ?, now())";
@@ -84,7 +68,7 @@ public class UserRepository {
 			UserVO vo  = null;
 			
 			try {
-				conn = getconnection();
+				conn = dataSource.getConnection();
 				
 				sql = "select no,name from user where email = ? and password = ?";
 				
@@ -154,7 +138,7 @@ public class UserRepository {
 			ResultSet rs = null;
 					
 			try {
-				conn = getconnection();
+				conn = dataSource.getConnection();
 				
 				String sql =
 					" select no, name, email, gender " + 
@@ -198,7 +182,7 @@ public class UserRepository {
 
 		public UserVO update(UserVO vo) {
 			try {
-				conn = getconnection();
+				conn = dataSource.getConnection();
 				sql  = "select no from user where password = ?";
 				
 				pstmt = conn.prepareStatement(sql);
