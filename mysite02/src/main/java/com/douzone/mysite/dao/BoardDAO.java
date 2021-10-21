@@ -62,7 +62,30 @@ public class BoardDAO {
 		
 	}	
 	
-	public List<BoardDTO> listall() {
+	public int getboardcount() {
+		int count = 0;
+		try {
+			conn = getconnection();
+			
+			sql = "select count(*) from board";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+		
+	}
+	
+	
+	public List<BoardDTO> listall(int startRow,int pagesize) {
 		List<BoardDTO> list = new ArrayList<BoardDTO>(); 
 		
 		try {
@@ -70,11 +93,15 @@ public class BoardDAO {
 			sql = "select a.no, a.title, a.contents, a.hit, "
 					+ "a.reg_date, a.group_no, a.order_no,a.depth, "
 					+ "a.user_no, b.name, a.is_del from board a join "
-					+ "user b on a.user_no = b.no order by a.group_no desc ,a.order_no desc ,a.depth asc";
+					+ "user b on a.user_no = b.no order by a.group_no desc ,a.order_no desc ,a.depth asc limit ?,?";
 			pstmt = conn.prepareStatement(sql);
-				
-			rs = pstmt.executeQuery();
+			pstmt.setInt(1, startRow-1);
+			pstmt.setInt(2, pagesize);	
+			//pstmt.setInt(1, 0);
+			//pstmt.setInt(2, 1);	
 			
+			rs = pstmt.executeQuery();
+			int count = 0;
 			while(rs.next()) {
 				BoardDTO dto = new BoardDTO();
 				
@@ -89,6 +116,7 @@ public class BoardDAO {
 				dto.setUser_no(rs.getInt(9));
 				dto.setName(rs.getString(10));
 				dto.setIs_del(rs.getString(11));
+				count++;
 				
 				list.add(dto);
 			}
@@ -280,6 +308,8 @@ public class BoardDAO {
 			
 			rs = pstmt.executeQuery();
 			
+			if(rs.next()) {
+			
 			while(rs.next()) {
 				BoardDTO dto = new BoardDTO();
 				dto.setNo(rs.getLong(1));
@@ -289,6 +319,11 @@ public class BoardDAO {
 				dto.setName(rs.getString(5));
 				
 				list.add(dto);
+			}
+			
+			}else {
+				list.add(null);
+				System.out.println(list);
 			}
 			
 		} catch (SQLException e) {

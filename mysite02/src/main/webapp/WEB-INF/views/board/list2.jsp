@@ -35,9 +35,9 @@
 					</tr>
 
 
-					<c:set var="count" value="${fn:length(list) }" />
 					<c:choose>
 						<c:when test="${empty kwdlist}">
+							<c:set var="count" value="${fn:length(list) }" />
 							<c:forEach items="${list }" var="dto" varStatus="status">
 								<c:choose>
 									<c:when test="${dto.is_del == 'true'}">
@@ -112,30 +112,13 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<c:if test="${boardcnt != 0}">
-						<fmt:parseNumber var= "pageCount" integerOnly= "true" value="${boardcnt/pvo.pagesize + (boardcnt % pvo.pagesize == 0? 0:1)}" />
-						<c:set var="pageBlock" value="1"/>
-						<fmt:parseNumber var= "startPage" integerOnly= "true" value="${((pvo.currentpage-1)/pageBlock) * pageBlock + 1}" />
-						
-						
-						<c:set var="endPage" value="${startPage + pageBlock-1 }"/>
-						
-						
-						<c:if test="${startPage > pageCount}">
-							<c:set var="endPage" value="${pageCount}"/> 
-						</c:if>
-						<c:if test="${startPage > pageBlock}">
-							<li><a href="${pageContext.request.contextPath }/board?b=list&pageNum=${startPage-pageBlock}">◀</a></li>
-						</c:if>
-						<c:forEach begin="${startPage }" end="${endPage}" var="i">
-							<li><a href="${pageContext.request.contextPath }/board?b=list&pageNum=${i}">${i}</a></li>
-						</c:forEach>	
-						
-						<c:if test="${endPage < pageCount}">
-							<li><a href="${pageContext.request.contextPath }/board?b=list&pageNum=${startPage+pageBlock}"> ▶</a></li>
-						</c:if>					
-					
-						</c:if>
+						<li><a href="${pageContext.request.contextPath }/board?b=list&pageNum=${pageNum}">◀</a></li>
+						<li><a href="">1</a></li>
+						<li class="selected">2</li>
+						<li><a href="">3</a></li>
+						<li>4</li>
+						<li>5</li>
+						<li><a href="">▶</a></li>
 					</ul>
 				</div>
 				<!-- pager 추가 -->
