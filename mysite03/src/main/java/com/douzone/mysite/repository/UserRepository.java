@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.douzone.mysite.exception.UserRepositoryException;
-import com.douzone.mysite.vo.UserVO;
+import com.douzone.mysite.vo.UserVo;
 
 @Repository
 public class UserRepository {
@@ -31,19 +31,19 @@ public class UserRepository {
 	String sql = null;
 	
 	//insert
-	public void insert(UserVO vo) {
+	public void insert(UserVo vo) {
 		sqlSession.insert("user.insert" , vo);
 	}
 	
 	
 	//select
-		public UserVO findbyEmailAndPassword(String email,String password)
+		public UserVo findbyEmailAndPassword(String email,String password)
 				throws UserRepositoryException {
 			//두개 보내줘야함
 			Map<String, String> map  =new HashMap<>();
 			map.put("e", email);
 			map.put("p", password);
-			UserVO vo = sqlSession.selectOne("user.findByEmailAndPassword", map );
+			UserVo vo = sqlSession.selectOne("user.findByEmailAndPassword", map );
 			return vo;
 		}
 
@@ -77,12 +77,12 @@ public class UserRepository {
 		}*/
 		
 
-		public UserVO findByNo(Long no) throws UserRepositoryException {
+		public UserVo findByNo(Long no) throws UserRepositoryException {
 			return sqlSession.selectOne("user.findByNo", no);
 		}
 		
 
-		public boolean update(UserVO vo) {
+		public boolean update(UserVo vo) {
 			 int count = sqlSession.update("user.update", vo);
 		 return count == 1;
 			

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.douzone.mysite.repository.UserRepository;
-import com.douzone.mysite.vo.UserVO;
+import com.douzone.mysite.vo.UserVo;
 
 @Service
 public class UserService {
@@ -12,20 +12,20 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public void join(UserVO vo) {
+	public void join(UserVo vo) {
 		userRepository.insert(vo);
 	}
 
-	public UserVO getuser(Long no) {
+	public UserVo getuser(Long no) {
 		return userRepository.findByNo(no);
 	}
 	
 	
-	public UserVO getuser(String email, String password) {
+	public UserVo getuser(String email, String password) {
 		return userRepository.findbyEmailAndPassword(email, password);
 	}
 
-	public void updateuser(UserVO userVo) {
+	public void updateuser(UserVo userVo) {
 		userRepository.update(userVo);
 	}
 	

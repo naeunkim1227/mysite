@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.douzone.mysite.security.Auth;
+import com.douzone.mysite.security.AuthUser;
 import com.douzone.mysite.service.UserService;
-import com.douzone.mysite.vo.UserVO;
+import com.douzone.mysite.vo.UserVo;
 
 @Controller
 @RequestMapping("/user")
@@ -26,7 +28,7 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "/join" ,method = RequestMethod.POST)
-	public String join(UserVO vo) {
+	public String join(UserVo vo) {
 		userService.join(vo);
 		return "redirect:/user/joinsuccess";
 	}
@@ -41,21 +43,15 @@ public class UserController {
 		return "user/login";
 	}
 	
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(HttpSession session) {
-		session.removeAttribute("authUser");
-		session.invalidate();
-		
-		return "redirect:/";
-	}
 	
+	/*Login interceptor에서 처리하므로 메소드 삭제
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(
 			HttpSession session,
 			@RequestParam(value = "email", required = true, defaultValue = "" ) String email, 
 			@RequestParam(value = "password", required = true, defaultValue = "") String password,
 			Model model) {
-		 UserVO userVo = userService.getuser(email,password);
+		 UserVo userVo = userService.getuser(email,password);
 		 if(userVo == null) { 
 		 model.addAttribute("result", "fail");
 		 	return "user/login";
@@ -65,38 +61,27 @@ public class UserController {
 		 session.setAttribute("authUser", userVo);
 		 
 		return "redirect:/";
-	}
+	*/
 	
 	
+	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public String update(HttpSession session, Model model) {
-		//접근제어(Access Control List)
-		UserVO authUser = (UserVO)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
+	public String update(@AuthUser UserVo authUser ,Model model) {
+		//session에 있는 정보가 필요하므로 @Auth로 인증만 하면 안된다.
+		//@AuthUser 로 세션에 있는 사용자 정보를 가져와서 보낸다.
+		//@AuthUser를 생성해줘야 한다.
 		
-		//////////////////////////////////////////////////////////////
-		
-		Long no = authUser.getNo();
-		UserVO userVo = userService.getuser(no);
+		UserVo userVo = userService.getuser(authUser.getNo());
 		model.addAttribute("userVo", userVo);
 		return "user/update";
 	}
 	
+	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(HttpSession session, UserVO userVo) {
-		//접근제어(Access Control List)
-		UserVO authUser = (UserVO)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		
-		//////////////////////////////////////////////////////////////
+	public String update(@AuthUser UserVo authUser, UserVo userVo) {
 		
 		userVo.setNo(authUser.getNo());
 		userService.updateuser(userVo);
-		
 		
 		//수정후 헤더의 아이디도 바뀌도록 새로 지정
 		authUser.setName(userVo.getName());

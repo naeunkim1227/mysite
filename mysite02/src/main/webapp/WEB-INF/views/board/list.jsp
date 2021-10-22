@@ -113,12 +113,10 @@
 				<div class="pager">
 					<ul>
 						<c:if test="${boardcnt != 0}">
-						<fmt:parseNumber var= "pageCount" integerOnly= "true" value="${boardcnt/pvo.pagesize + (boardcnt % pvo.pagesize == 0? 0:1)}" />
 						<c:set var="pageBlock" value="1"/>
+						<fmt:parseNumber var= "pageCount" integerOnly= "true" value="${boardcnt/pvo.pagesize + (boardcnt % pvo.pagesize == 0? 0:1)}" />
 						<fmt:parseNumber var= "startPage" integerOnly= "true" value="${((pvo.currentpage-1)/pageBlock) * pageBlock + 1}" />
-						
-						
-						<c:set var="endPage" value="${startPage + pageBlock-1 }"/>
+						<fmt:parseNumber var= "endPage" integerOnly= "true" value="${startPage + pageBlock-1 }" />
 						
 						
 						<c:if test="${startPage > pageCount}">
@@ -137,7 +135,7 @@
 					
 						</c:if>
 					</ul>
-				</div>
+				</div>,
 				<!-- pager 추가 -->
 
 				<div class="bottom">

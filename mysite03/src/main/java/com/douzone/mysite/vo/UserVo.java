@@ -1,12 +1,15 @@
 package com.douzone.mysite.vo;
 
-public class UserVO {
+public class UserVo {
 	private long no;
 	private String name;
 	private String email;
 	private String password;
 	private String gender;
 	private String joinDate;
+	private String role;
+	
+	
 	public long getNo() {
 		return no;
 	}
@@ -43,10 +46,17 @@ public class UserVO {
 	public void setJoinDate(String joinDate) {
 		this.joinDate = joinDate;
 	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 	@Override
 	public String toString() {
-		return "UserVO [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password + ", gender="
-				+ gender + ", joinDate=" + joinDate + "]";
+		return "UserVo [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password + ", gender="
+				+ gender + ", joinDate=" + joinDate + ", role=" + role + "]";
 	}
+
 	
 }
