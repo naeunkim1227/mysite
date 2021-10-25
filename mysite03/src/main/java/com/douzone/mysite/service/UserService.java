@@ -8,7 +8,6 @@ import com.douzone.mysite.vo.UserVo;
 
 @Service
 public class UserService {
-	
 	@Autowired
 	private UserRepository userRepository;
 
@@ -16,21 +15,21 @@ public class UserService {
 		userRepository.insert(vo);
 	}
 
-	public UserVo getuser(Long no) {
+	public UserVo getUser(String email) {
+		return userRepository.findByEmail(email);
+	}
+	
+	public UserVo getUser(Long no) {
 		return userRepository.findByNo(no);
 	}
-	
-	
-	public UserVo getuser(String email, String password) {
-		return userRepository.findbyEmailAndPassword(email, password);
+
+	public UserVo getUser(String email, String password) {
+		return userRepository.findByEmailAndPassword(email, password);
 	}
 
-	public void updateuser(UserVo userVo) {
+	public void updateUser(UserVo userVo) {
 		userRepository.update(userVo);
 	}
-	
-	
-	
-	
-	
+
+
 }

@@ -18,6 +18,14 @@
 			select no, name, email, gender from user where no=#{no }
 			]]>
 	</select>
+
+	<select id="findByEmail" parameterType="string"  resultType="uservo">
+			<![CDATA[
+			elect no, name, email, gender 
+			from user 
+			where email=#{email }
+			]]>
+	</select>
 	
 	
 	<update id="update" parameterType="uservo">

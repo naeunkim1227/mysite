@@ -71,7 +71,7 @@ public class UserController {
 		//@AuthUser 로 세션에 있는 사용자 정보를 가져와서 보낸다.
 		//@AuthUser를 생성해줘야 한다.
 		
-		UserVo userVo = userService.getuser(authUser.getNo());
+		UserVo userVo = userService.getUser(authUser.getNo());
 		model.addAttribute("userVo", userVo);
 		return "user/update";
 	}
@@ -81,7 +81,7 @@ public class UserController {
 	public String update(@AuthUser UserVo authUser, UserVo userVo) {
 		
 		userVo.setNo(authUser.getNo());
-		userService.updateuser(userVo);
+		userService.updateUser(userVo);
 		
 		//수정후 헤더의 아이디도 바뀌도록 새로 지정
 		authUser.setName(userVo.getName());

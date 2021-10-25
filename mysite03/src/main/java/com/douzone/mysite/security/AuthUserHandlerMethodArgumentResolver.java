@@ -16,33 +16,13 @@ public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgum
 	//@AuthUser 사용하면 쓰는 메소드....
 	//파라미터가 넘어오면, 내가 원하는 데이터면 true리턴, 아니면 false리턴
 	// @AuthUser 가 붙어 있는지,UserVo 타입인지 확인이 필요하다.
-
-	@Override
-	public Object resolveArgument(MethodParameter parameter,
-			ModelAndViewContainer mavContainer,
-			NativeWebRequest webRequest, 
-			WebDataBinderFactory binderFactory) throws Exception {
-		if(! supportsParameter(parameter)) {
-			//파라미터 값이 null이면 풀수없다고...보내준다..
-			return WebArgumentResolver.UNRESOLVED;
-		}
-		
-		//톰캣의..뭐..?
-		HttpServletRequest request = (HttpServletRequest)webRequest.getNativeRequest();
-		HttpSession session = request.getSession();
-		if(session == null) {
-			return null;
-		}
-		
-		//세션이 살아있다.
-		return session.getAttribute("authUser");
-	}
-
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
+		//컨트롤러 쪽 검사 함
+		
 		//어노테이션을 가져온다...
 		 AuthUser authUser = parameter.getParameterAnnotation(AuthUser.class);
-		
+		 
 		 //@AuthUser가 안 붙어 있음, 타입이 안맞음 
 		 if(authUser == null) {
 			 return false;
@@ -58,4 +38,32 @@ public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgum
 		 
 		return true;
 	}
+	
+	
+	
+	@Override
+	public Object resolveArgument(MethodParameter parameter,
+			ModelAndViewContainer mavContainer,
+			NativeWebRequest webRequest, 
+			WebDataBinderFactory binderFactory) throws Exception {
+		
+		
+		if(! supportsParameter(parameter)) {
+			//파라미터 값이 null이면 풀수없다고...보내준다..
+			return WebArgumentResolver.UNRESOLVED;
+		}
+		
+		//톰캣의..뭐..?
+		HttpServletRequest request = (HttpServletRequest)webRequest.getNativeRequest();
+		HttpSession session = request.getSession();
+		if(session == null) {
+			return null;
+		}
+		
+		//세션이 살아있다.
+		//@AuthUser UserVo authUser 로 값을 넘겨주는 것이다
+		return session.getAttribute("authUser");
+	}
+
+
 }

@@ -1,6 +1,5 @@
 package com.douzone.mysite.vo;
 
-
 public class BoardVo {
 	private Long no;
 	private String title;
@@ -12,7 +11,6 @@ public class BoardVo {
 	private Integer depth;
 	private Long userNo;
 	private String userName;
-	
 	
 	public Long getNo() {
 		return no;

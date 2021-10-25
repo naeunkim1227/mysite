@@ -25,7 +25,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 		//new 로 선언해주면 안 된다. > new 로 선언해버리면 새로운 객체 생성 > 레포지토리가 null값이 떠서 , null예외 발생함
 		//autowired를 통해 주입이 가능하다.
 		System.out.println("LoginInterceptor 실행");
-		UserVo authUser = userService.getuser(email, password);
+		UserVo authUser = userService.getUser(email, password);
 		if(authUser == null) {
 			request.setAttribute("result", "fail");
 			request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").
