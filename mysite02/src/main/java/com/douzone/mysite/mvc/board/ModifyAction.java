@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.douzone.mysite.dao.BoardDAO;
+import com.douzone.mysite.dao.BoardDAO22;
 import com.douzone.mysite.vo.BoardDTO;
 import com.douzone.mysite.vo.UserVO;
 import com.douzone.web.mvc.Action;
@@ -36,7 +36,7 @@ public class ModifyAction implements Action {
 		dto.setContents(content);
 		dto.setTitle(title);
 		
-		new BoardDAO().modify(dto);
+		new BoardDAO22().modify(dto);
 		MvcUtil.redirect("/mysite02/board", request, response);
 
 	}

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.douzone.mysite.dao.BoardDAO;
+import com.douzone.mysite.dao.BoardDAO22;
 import com.douzone.mysite.vo.BoardDTO;
 import com.douzone.mysite.vo.UserVO;
 import com.douzone.web.mvc.Action;
@@ -31,7 +31,7 @@ public class RewriteAction implements Action {
 		dto.setUser_no(authUser.getNo());
 		dto.setNo(Integer.parseInt(request.getParameter("no")));
 		
-		new BoardDAO().replyinsert(dto);
+		new BoardDAO22().replyinsert(dto);
 		
 		MvcUtil.redirect(request.getContextPath()+"/board", request, response);
 	}

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.douzone.mysite.dao.BoardDAO;
+import com.douzone.mysite.dao.BoardDAO22;
 import com.douzone.mysite.vo.BoardDTO;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
@@ -20,7 +20,7 @@ public class SearchAction implements Action {
 		String kwd = request.getParameter("kwd");
 		System.out.println(kwd +"를 찾습니다..");
 		
-		List<BoardDTO> kwdlist = new BoardDAO().searchlist(kwd);
+		List<BoardDTO> kwdlist = new BoardDAO22().searchlist(kwd);
 		
 		request.setAttribute("kwdlist", kwdlist);
 		

@@ -19,7 +19,7 @@
 			<div id="board">
 
 				<form id="search_form"
-					action="${pageContext.request.contextPath }/board?b=search"
+					action="${pageContext.request.contextPath }/board?b=list"
 					method="post">
 					<input type="text" id="kwd" name="kwd" value=""> <input
 						type="submit" value="찾기">
@@ -35,10 +35,8 @@
 					</tr>
 
 
-					<c:choose>
-						<c:when test="${empty kwdlist}">
-							<c:set var="count" value="${fn:length(list) }" />
-							<c:forEach items="${list }" var="dto" varStatus="status">
+					<c:set var="count" value="${fn:length(map.list) }" />
+							<c:forEach items="${map.list }" var="dto" varStatus="status">
 								<c:choose>
 									<c:when test="${dto.is_del == 'true'}">
 										<tr>
@@ -76,51 +74,33 @@
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<b>${param.kwd} 에 대한 검색결과 입니다.</b>
-							<c:set var="count" value="${fn:length(kwdlist) }" />
-							<c:forEach items="${kwdlist }" var="dto" varStatus="status">
-								<tr>
-								<td>${count-status.index}</td>
-								<td>
-								<a href="${pageContext.request.contextPath }/board?b=view&no=${dto.no}">${dto.title}</a>
-								</td>
-								<td>${dto.name}</td>
-								<td>${dto.hit }</td>
-								<td>${dto.reg_date }</td>
-								<c:choose>
-									<c:when test="${authUser.no == null}">
-										<td><a
-											href="${pageContext.request.contextPath }/user?a=loginform">로그인
-												후 삭제 가능</a></td>
-										</td>
-									</c:when>
-									<c:otherwise>
-										<td><a
-											href="${pageContext.request.contextPath }/board?b=delete&userno=${authUser.no}&no=${dto.no}"
-											class="del">삭제</a></td>
-									
-									</c:otherwise>
-								</c:choose>
-								</tr>
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
-				</table>
+					</table>
 
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<li><a href="${pageContext.request.contextPath }/board?b=list&pageNum=${pageNum}">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
+						<c:if test="${map.prevPage > 0 }" >
+							<li><a href="${pageContext.request.contextPath }/board?p=${map.prevPage }&kwd=${map.keyword }">◀</a></li>
+						</c:if>
+						
+						<c:forEach begin="${map.beginPage }" end="${map.beginPage + map.listSize - 1 }" var="page">
+							<c:choose>
+								<c:when test="${map.endPage < page }">
+									<li>${page }</li>
+								</c:when> 
+								<c:when test="${map.pageNum == page }">
+									<li class="selected">${page }</li>
+								</c:when>
+								<c:otherwise> 
+									<li><a href="${pageContext.request.contextPath }/board?p=${page }&kwd=${map.keyword }">${page }</a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						<c:if test="${map.nextPage > 0 }" >
+							<li><a href="${pageContext.request.contextPath }/board?p=${map.nextPage }&kwd=${map.keyword }">▶</a></li>
+						</c:if>	
 					</ul>
-				</div>
+				</div>				
 				<!-- pager 추가 -->
 
 				<div class="bottom">

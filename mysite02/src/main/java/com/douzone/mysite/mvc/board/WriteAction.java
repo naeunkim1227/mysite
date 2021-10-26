@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.douzone.mysite.dao.BoardDAO;
+import com.douzone.mysite.dao.BoardDAO22;
 import com.douzone.mysite.vo.BoardDTO;
 import com.douzone.mysite.vo.UserVO;
 import com.douzone.web.mvc.Action;
@@ -31,7 +31,7 @@ public class WriteAction implements Action {
 		dto.setContents(request.getParameter("content"));
 		dto.setUser_no(authUser.getNo());
 		
-		new BoardDAO().write(dto);
+		new BoardDAO22().write(dto);
 		
 		MvcUtil.redirect("/mysite02/board", request, response);
 	}
