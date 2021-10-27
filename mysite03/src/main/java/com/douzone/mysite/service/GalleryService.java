@@ -87,9 +87,8 @@ public class GalleryService {
 		return	galleryRepository.getimages();
 	}
 
-	public int delete(int no) {
-		
-		return galleryRepository.delete(no);
+	public void delete(Long no) {
+		 galleryRepository.delete(no);
 	}
 
 }

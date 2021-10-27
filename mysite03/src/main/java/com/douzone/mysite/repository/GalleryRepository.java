@@ -30,8 +30,8 @@ public class GalleryRepository {
 		
 	}
 
-	public int delete(int no) {
-		return sqlSession.delete("gallery.delete", no);
+	public void delete(Long no) {
+		sqlSession.delete("gallery.delete", no);
 	}
 	
 	
