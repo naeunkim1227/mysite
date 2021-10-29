@@ -36,7 +36,8 @@ public class MysiteWebApplicationInitializer extends AbstractAnnotationConfigDis
 	@Override
 	protected Filter[] getServletFilters() {
 		
-		//필터 매핑은 안해줘도 되는..?
+		//필터 매핑은 안해줘도 되는..? 이 메소드를 사용할 경우 getServletMappings()에 명시된 주소로 매핑!
+		//지정하고 싶으면 다른 메소드를 써줘야함 
 		return new Filter[] {new CharacterEncodingFilter("UTF-8", false)};
 	}
 
