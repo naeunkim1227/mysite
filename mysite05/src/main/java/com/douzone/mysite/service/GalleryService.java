@@ -57,6 +57,13 @@ public class GalleryService {
 			vo.setUrl(URL_BASE + "/" + saveName);
 			vo.setComments(comments);
 			
+			System.out.println("===================================");
+			
+			System.out.println(vo.getUrl());
+
+			System.out.println("===================================");
+			
+			
 			galleryRepository.insert(vo);
 		
 		} catch (IOException e) {
