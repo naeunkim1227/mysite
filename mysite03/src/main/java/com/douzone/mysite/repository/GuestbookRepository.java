@@ -44,9 +44,17 @@ public class GuestbookRepository {
 		return list;
 	}
 	
+	//AJAX insert
+	public List<guestbookVO> findall(Long no) {
+		List<guestbookVO> list = sqlsession.selectList("guestbook.findAllno", no);
+		return list;
+	}
+	
 	//delete
 	public void delete(guestbookVO vo) {
 		sqlsession.delete("guestbook.delete", vo);	
 	}
+
+
 	
 }

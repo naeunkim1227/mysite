@@ -17,6 +17,10 @@ public class GuestbookService {
 	public List<guestbookVO> getlist() {
 		return guestbookRepository.findall();
 	}
+	
+	public List<guestbookVO> getlist(Long no) {
+		return guestbookRepository.findall(no);
+	}
 
 	public void write(guestbookVO vo) {
 		guestbookRepository.insert(vo);
@@ -29,5 +33,7 @@ public class GuestbookService {
 		
 		guestbookRepository.delete(vo);
 	}
+
+	
 
 }

@@ -25,4 +25,12 @@
 		]]>
 	
 	</select>
+	
+	<select id="findAllno" resultType="guestbookvo" parameterType="Long">
+		<![CDATA[
+			select no,name, message,date_format(reg_date, '%Y/%m/%d %H:%i:%s') as regDate 
+			from guestbook where no > #{no} order by reg_date desc
+		]]>
+	
+	</select>
 </mapper>
